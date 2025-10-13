@@ -16714,3 +16714,33 @@ img {
 .no-cursor {
   cursor: not-allowed;
 }
+/* the slider */
+
+/* size & offsets */
+
+/* keep Slick layout; only restyle look */
+#section-collections .slick-prev,
+#section-collections .slick-next {
+  background: #fff; /* circular background */
+  border-radius: 999px;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  z-index: 5;
+}
+
+/* color the arrow icon itself (Slick’s :before) */
+#section-collections .slick-prev:before,
+#section-collections .slick-next:before {
+  color: #111; 
+  opacity: 1; 
+  font-size: 28px; 
+}
+
+.nft_coll_pp .pp-coll {
+  object-fit: cover; /* crop nicely */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+#section-collections .slick-slide > div { padding: 0 4px; }  /* 14px per side = 28px gap */
+#section-collections .slick-list       { margin: 0 -8px; }
