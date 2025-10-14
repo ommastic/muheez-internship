@@ -16742,5 +16742,91 @@ img {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-#section-collections .slick-slide > div { padding: 0 4px; }  /* 14px per side = 28px gap */
+#section-collections .slick-slide > div { padding: 0 4px; }  
 #section-collections .slick-list       { margin: 0 -8px; }
+
+/* skeleton */
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1200px) { .skeleton-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 992px)  { .skeleton-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px)  { .skeleton-row { grid-template-columns: 1fr; } }
+
+.sk-card .nft_coll {
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  overflow: hidden;
+}
+
+
+/* ===============  Base skeleton block  =============== */
+.sk {
+  position: relative;
+  background: #ececec;                 /* fallback background */
+  border-radius: 12px;
+}
+
+/* Shimmer ON when .sk--shimmer is present */
+.sk.sk--shimmer::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  animation: sk-shimmer 1.2s ease-in-out infinite;
+}
+
+/* Motion safety */
+@media (prefers-reduced-motion: reduce) {
+  .sk.sk--shimmer::after { animation: none; }
+}
+
+@keyframes sk-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ===============  Pieces that mirror the real card  =============== */
+
+/* image */
+.sk-img {
+  height: 180px;          /* match your real image height */
+  border-radius: 12px;
+}
+
+/* avatar + badge (placed using your existing card layout) */
+.nft_wrap { 
+  position: relative; 
+}
+
+.sk-avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+}
+
+/* small round badge next to avatar */
+.sk-badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+/* title and subtext bars */
+.sk-title {
+  height: 18px;
+  width: 70%;
+  margin: 18px 0 8px;
+  border-radius: 8px;
+}
+.sk-sub {
+  height: 12px;
+  width: 40%;
+  border-radius: 8px;
+}
+
+

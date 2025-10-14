@@ -1,17 +1,14 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 export default function HotCollections() {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
-  const sliderRef = useRef(null);
-
-
+ 
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -43,14 +40,20 @@ export default function HotCollections() {
     slidesToScroll: 1,
     swipeToSlide: true,
     responsive: [
-      { breakpoint: 1100, settings: { slidesToShow: 3 } },
-      { breakpoint: 992, settings: { slidesToShow: 2 } },
-      { breakpoint: 600, settings: { slidesToShow: 1 } },
+      { 
+        breakpoint: 1100, 
+        settings: { slidesToShow: 3 } 
+      },
+      { 
+        breakpoint: 992, 
+        settings: { slidesToShow: 2 } 
+      },
+      { 
+        breakpoint: 600, 
+        settings: { slidesToShow: 1 } 
+      },
     ],
   }), []);
-
-
-  const canSlide = collections.length > 4;
 
   return (
     <section id="section-collections" className="no-bottom">
@@ -70,17 +73,17 @@ export default function HotCollections() {
                 <div className="sk-card" key={i}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      <div className="sk sk-img" />
+                      <div className="sk sk-img sk--shimmer" />
                     </div>
 
                     <div className="nft_coll_pp">
-                      <div className="sk sk-avatar" />
-                      <div className="sk sk-badge" />
+                      <div className="sk sk-avatar sk--shimmer" />
+                      <div className="sk sk-badge sk--shimmer" />
                     </div>
 
                     <div className="nft_coll_info">
-                      <div className="sk sk-title" />
-                      <div className="sk sk-sub" />
+                      <div className="sk sk-title sk--shimmer" />
+                      <div className="sk sk-sub sk--shimmer" />
                     </div>
                   </div>
                 </div>
