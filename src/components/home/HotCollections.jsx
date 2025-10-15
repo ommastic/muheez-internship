@@ -8,27 +8,29 @@ import "slick-carousel/slick/slick-theme.css";
 export default function HotCollections() {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+
   useEffect(() => {
-    let cancelled = false;
+    let controller = new AbortController();
     (async () => {
       try {
+        setLoading(true)
         const { data } = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+          "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
+          { signal: controller.signal }
         );
-        if (!cancelled) {
-          setCollections(Array.isArray(data) ? data : Object.values(data || {}));
-          setLoading(false);
-        }
+        const list = Array.isArray(data) ? data : Object.values(data || {});
+        setCollections(list)
       } catch (e) {
-        if (!cancelled) {
-          console.error("hotCollections fetch failed:", e);
-          setCollections([]);
-          setLoading(false);
+        if (axios.isCancel(e)) {
+          return
         }
+        console.error("hotCollections fetch failed:", e);
+        setCollections([]);
+      } finally {
+        setLoading(false);
       }
     })();
-    return () => { cancelled = true; };
+    return () => controller.abbot();
   }, []);
 
   const settings = useMemo(() => ({
@@ -40,17 +42,17 @@ export default function HotCollections() {
     slidesToScroll: 1,
     swipeToSlide: true,
     responsive: [
-      { 
-        breakpoint: 1100, 
-        settings: { slidesToShow: 3 } 
+      {
+        breakpoint: 1100,
+        settings: { slidesToShow: 3 }
       },
-      { 
-        breakpoint: 992, 
-        settings: { slidesToShow: 2 } 
+      {
+        breakpoint: 992,
+        settings: { slidesToShow: 2 }
       },
-      { 
-        breakpoint: 600, 
-        settings: { slidesToShow: 1 } 
+      {
+        breakpoint: 600,
+        settings: { slidesToShow: 1 }
       },
     ],
   }), []);
