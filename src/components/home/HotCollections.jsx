@@ -30,7 +30,7 @@ export default function HotCollections() {
         setLoading(false);
       }
     })();
-    return () => controller.abbot();
+    return () => controller.abort();
   }, []);
 
   const settings = useMemo(() => ({
