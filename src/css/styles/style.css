@@ -16719,3 +16719,57 @@ img {
 .relative .owl-nav .owl-prev { left: -24px; }
 .relative .owl-nav .owl-next { right: -24px; }
 
+/* base shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.skeleton-box .shimmer {
+  background: #e5e5e5;
+  background-image: linear-gradient(90deg, #e5e5e5 0, #f2f2f2 40px, #e5e5e5 80px);
+  background-size: 200px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 8px;
+  display: block;
+}
+
+/* sizes that match your layout */
+.skeleton-box .img {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+}
+
+.skeleton-box .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin: -22px auto 8px; /* sits on the image edge */
+}
+
+.skeleton-box .badge {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+}
+
+.skeleton-box .title {
+  width: 60%;
+  height: 14px;
+  margin: 8px auto 6px;
+  border-radius: 6px;
+}
+
+.skeleton-box .sub {
+  width: 40%;
+  height: 12px;
+  margin: 0 auto 14px;
+  border-radius: 6px;
+}
+
+/* accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-box .shimmer { animation: none; }
+}

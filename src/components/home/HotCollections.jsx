@@ -45,7 +45,7 @@ const HotCollections = () => {
       0: { items: 1 },
       600: { items: 2 },
       992: { items: 3 },
-      1100: { items: 4 },
+      1200: { items: 4 },
     },
   }), [])
 
