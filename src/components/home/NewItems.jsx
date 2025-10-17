@@ -62,7 +62,40 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {loading ? (<div>loading...</div>) : (
+          {loading ? (
+            <div className="skeleton-box">
+              {[...Array(4)].map((_, i) => (
+                <div className="card" key={i}>
+                  <div className="nft__item" />
+                  <div className="de_countdown">
+
+                    {/* avatar + verify badge */}
+                    <div className="author_list_pp">
+                      <div className="ske-avatar ske-shimmer" />
+                      <div className="ske-badge ske-shimmer" />
+                    </div>
+
+                    {/* image placeholder */}
+                    <div className="nft__item_wrap">
+                      <div className="ske-img ske-shimmer" />
+                    </div>
+
+                    {/* info area */}
+                    <div className="nft__item_info">
+                      <div className="ske-title ske-shimmer" />
+                      <div className="ske-row">
+                        <div className="ske-price ske-shimmer" />
+                        <div className="ske-like">
+                          <div className="ske-like-dot ske-shimmer" />
+                          <div className="ske-like-bar ske-shimmer" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <OwlCarousel className="owl-theme" {...owlOptions}>
               {newItems.map(item => (
                 <div className="nft_coll" key={item.id}>
@@ -111,7 +144,7 @@ const NewItems = () => {
                       <Link to="/item-details">
                         <h4>{item.title}</h4>
                       </Link>
-                      <div className="nft__item_price">3.08 ETH</div>
+                      <div className="nft__item_price">{item.price}</div>
                       <div className="nft__item_like">
                         <i className="fa fa-heart"></i>
                         <span>{item.likes}</span>
