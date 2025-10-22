@@ -15463,8 +15463,8 @@ img {
   }
 }
 
-/* -------------------------------------------------- 
-    design for 768px
+/* -------------------------------------------------- */
+    /*design for 768px*/
     /* ================================================== */
 
 @media (min-width: 768px) and (max-width: 979px) {
@@ -16714,62 +16714,120 @@ img {
 .no-cursor {
   cursor: not-allowed;
 }
+/* the slider */
 
-/* move the nav to its proper place */
-.relative .owl-nav .owl-prev { left: -24px; }
-.relative .owl-nav .owl-next { right: -24px; }
+/* size & offsets */
 
-/* base shimmer */
-@keyframes shimmer {
-  0%   { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
+/* keep Slick layout; only restyle look */
+#section-collections .slick-prev,
+#section-collections .slick-next {
+  background: #fff; /* circular background */
+  border-radius: 999px;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  z-index: 5;
 }
 
-.skeleton-box .shimmer {
-  background: #e5e5e5;
-  background-image: linear-gradient(90deg, #e5e5e5 0, #f2f2f2 40px, #e5e5e5 80px);
-  background-size: 200px 100%;
-  animation: shimmer 1.4s infinite linear;
-  border-radius: 8px;
-  display: block;
+/* color the arrow icon itself (Slick’s :before) */
+#section-collections .slick-prev:before,
+#section-collections .slick-next:before {
+  color: #111; 
+  opacity: 1; 
+  font-size: 28px; 
 }
 
-/* sizes that match your layout */
-.skeleton-box .img {
-  width: 100%;
-  height: 150px;
+.nft_coll_pp .pp-coll {
+  object-fit: cover; /* crop nicely */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+#section-collections .slick-slide > div { padding: 0 4px; }  
+#section-collections .slick-list       { margin: 0 -8px; }
+
+/* skeleton */
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1200px) { .skeleton-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 992px)  { .skeleton-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px)  { .skeleton-row { grid-template-columns: 1fr; } }
+
+.sk-card .nft_coll {
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  overflow: hidden;
+}
+
+
+/* ===============  Base skeleton block  =============== */
+.sk {
+  position: relative;
+  background: #ececec;                 /* fallback background */
   border-radius: 12px;
 }
 
-.skeleton-box .avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  margin: -22px auto 8px; /* sits on the image edge */
+/* Shimmer ON when .sk--shimmer is present */
+.sk.sk--shimmer::after {
+  content: "";
+  position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  animation: sk-shimmer 1.2s ease-in-out infinite;
 }
 
-.skeleton-box .badge {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  margin: 0 auto 12px;
-}
-
-.skeleton-box .title {
-  width: 60%;
-  height: 14px;
-  margin: 8px auto 6px;
-  border-radius: 6px;
-}
-
-.skeleton-box .sub {
-  width: 40%;
-  height: 12px;
-  margin: 0 auto 14px;
-  border-radius: 6px;
-}
-
-/* accessibility: respect reduced motion */
+/* Motion safety */
 @media (prefers-reduced-motion: reduce) {
-  .skeleton-box .shimmer { animation: none; }
+  .sk.sk--shimmer::after { animation: none; }
 }
+
+@keyframes sk-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* ===============  Pieces that mirror the real card  =============== */
+
+/* image */
+.sk-img {
+  height: 180px;          /* match your real image height */
+  border-radius: 12px;
+}
+
+/* avatar + badge (placed using your existing card layout) */
+.nft_wrap { 
+  position: relative; 
+}
+
+.sk-avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+}
+
+/* small round badge next to avatar */
+.sk-badge {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+/* title and subtext bars */
+.sk-title {
+  height: 18px;
+  width: 70%;
+  margin: 18px 0 8px;
+  border-radius: 8px;
+}
+
+.sk-sub {
+  height: 12px;
+  width: 40%;
+  border-radius: 8px;
+}
+
+
