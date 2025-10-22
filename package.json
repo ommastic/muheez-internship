@@ -8,7 +8,11 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.12.2",
     "firebase": "^9.8.4",
+<<<<<<< HEAD
+    "keen-slider": "^6.8.6",
+=======
     "owl-carousel": "^1.0.0",
+>>>>>>> newitems
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
