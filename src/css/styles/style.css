@@ -16857,10 +16857,10 @@ img {
 }
 
 /* Position: one on the far left, one on the far right */
-#section-items .slick-prev{ left: -10px; }
+#section-items .slick-prev{ left: 2px; }
 #section-collections .slick-prev { left: -10px; }
 
-#section-items .slick-next{ right: -10px; }
+#section-items .slick-next{ right: 2px; }
 #section-collections .slick-next { right: -10px; }
 
 
