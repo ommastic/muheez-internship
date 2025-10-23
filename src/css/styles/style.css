@@ -13289,7 +13289,7 @@ a.read_more i {
 }
 
 .author_list_pp {
-  margin-top: 2px;
+  margin-top: -12px;
   position: absolute;
   display: inline-block;
   width: 50px;
@@ -13344,7 +13344,7 @@ a.read_more i {
 
 .author_list_info {
   font-weight: bold;
-  padding-left: 70px;
+  padding-left: 80px;
 }
 
 .rtl .author_list_info {
@@ -13380,7 +13380,7 @@ a.read_more i {
 }
 
 .coll_list_pp img {
-  width: 100%;
+  width: 10%;
   border-radius: 100% !important;
   -moz-border-radius: 100% !important;
   -webkit-border-radius: 100% !important;
