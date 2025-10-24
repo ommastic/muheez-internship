@@ -13289,7 +13289,7 @@ a.read_more i {
 }
 
 .author_list_pp {
-  margin-top: 2px;
+  margin-top: -12px;
   position: absolute;
   display: inline-block;
   width: 50px;
@@ -13344,7 +13344,7 @@ a.read_more i {
 
 .author_list_info {
   font-weight: bold;
-  padding-left: 70px;
+  padding-left: 80px;
 }
 
 .rtl .author_list_info {
@@ -13380,7 +13380,7 @@ a.read_more i {
 }
 
 .coll_list_pp img {
-  width: 100%;
+  width: 10%;
   border-radius: 100% !important;
   -moz-border-radius: 100% !important;
   -webkit-border-radius: 100% !important;
@@ -16652,10 +16652,29 @@ img {
 
 .skeleton-box {
   display: inline-block;
-  height: 1em;
   position: relative;
   overflow: hidden;
   background-color: #dddbdd;
+}
+
+.sk-avatar { 
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  display: block; 
+}
+
+.sk-line { 
+  height: 12px; 
+  border-radius: 6px; 
+  display: block; 
+}
+
+.sk-title { 
+  width: 140px; 
+}
+.sk-sub { 
+  width: 80px; 
 }
 
 .skeleton-box::after {
@@ -16676,6 +16695,7 @@ img {
   animation: shimmer 2s infinite;
   content: "";
 }
+
 @-webkit-keyframes shimmer {
   100% {
     transform: translateX(100%);
@@ -16862,5 +16882,9 @@ img {
 
 #section-items .slick-next{ right: 2px; }
 #section-collections .slick-next { right: -10px; }
+
+#section-popular .lazy pp-author{
+  
+}
 
 
