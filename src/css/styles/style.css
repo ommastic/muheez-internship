@@ -16650,62 +16650,121 @@ img {
   }
 }
 
-.skeleton-box {
-  display: inline-block;
+/* =========================
+   Shared Skeleton Styles (HotCollections / NewItems / TopSellers)
+   ========================= */
+:root{
+  --ske-bg: #dddbdd;
+  --ske-sheen: rgba(255,255,255,.55);
+  --ske-radius-card: 12px;
+  --ske-radius-pill: 999px;
+  --ske-gap: 16px;
+  --ske-avatar: 44px;
+  --ske-like-dot: 10px;
+}
+
+/* Grid wrapper used during loading */
+.skeleton-box{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--ske-gap);
+}
+
+/* Keep spacing identical to slick slides so swap is seamless */
+.card{ padding: 0 8px; }
+.slick-list{ margin: 0 -8px; }
+
+@media (max-width: 1200px){ .skeleton-box{ grid-template-columns: repeat(3,1fr);} }
+@media (max-width: 992px){  .skeleton-box{ grid-template-columns: repeat(2,1fr);} }
+@media (max-width: 576px){  .skeleton-box{ grid-template-columns: 1fr;} }
+
+/* Base block + shimmer */
+.ske,
+.ske-shimmer{
   position: relative;
+  display: block;
   overflow: hidden;
-  background-color: #dddbdd;
+  background: var(--ske-bg);
+  border-radius: 8px;
 }
-
-.sk-avatar { 
-  width: 44px; 
-  height: 44px; 
-  border-radius: 50%; 
-  display: block; 
-}
-
-.sk-line { 
-  height: 12px; 
-  border-radius: 6px; 
-  display: block; 
-}
-
-.sk-title { 
-  width: 140px; 
-}
-.sk-sub { 
-  width: 80px; 
-}
-
-.skeleton-box::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transform: translateX(-100%);
-  background-image: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.5) 60%,
-    rgba(255, 255, 255, 0)
-  );
-  -webkit-animation: shimmer 2s infinite;
-  animation: shimmer 2s infinite;
+.ske-shimmer::after{
   content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--ske-sheen), transparent);
+  animation: ske-shimmer 1.2s infinite;
+}
+@keyframes ske-shimmer { 100% { transform: translateX(100%); } }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .ske-shimmer::after{ animation: none; display: none; }
 }
 
-@-webkit-keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
+/* ===== Card structure parity (matches nft card layout) ===== */
+.nft__item{ position: relative; }
+.nft__item_wrap{ margin-top: 8px; } /* space below avatar cluster */
+
+/* Avatar & badge cluster (top-left) */
+.author_list_pp{
+  position: absolute; 
+  top: 12px; left: 12px; z-index: 3;
+  display: flex; align-items: center; gap: 8px;
 }
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
-  }
+.ske-avatar{
+  width: var(--ske-avatar);
+  height: var(--ske-avatar);
+  border-radius: 50%;
+  border: 2px solid #fff;               /* matches real avatar ring */
+  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  background: var(--ske-bg);
 }
+.ske-badge{
+  width: 60px; height: 16px;
+  border-radius: var(--ske-radius-pill);
+}
+
+/* Main image placeholder */
+.ske-img{
+  height: 220px;
+  border-radius: var(--ske-radius-card);
+}
+
+/* Info rows */
+.nft__item_info{ margin-top: 10px; }
+.ske-title{
+  height: 16px; border-radius: 6px; width: 70%;
+  margin: 8px 0 6px;
+}
+.ske-row{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+
+/* Price bar (left of row) */
+.ske-price{
+  height: 14px; border-radius: 6px; width: 40%;
+}
+
+/* Like cluster (right of row) */
+.ske-like{
+  display: flex; align-items: center; gap: 8px;
+}
+.ske-like-dot{
+  width: var(--ske-like-dot); height: var(--ske-like-dot);
+  border-radius: 50%;
+}
+.ske-like-bar{
+  width: 28px; height: 10px; border-radius: 6px;
+}
+
+/* ===== TopSellers compatibility (when list layout is used) ===== */
+/* If your TopSellers uses <ol class="author_list"> with avatars/names,
+   these keep the skeletons aligned visually with the real list. */
+.author_list .ske-avatar{ margin-right: 10px; }
+.author_list .ske-title{ width: 120px; }
+.author_list .ske-price{ width: 64px; }
 
 .nft-image {
   height: 100%;
