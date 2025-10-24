@@ -79,13 +79,13 @@ export default function HotCollections() {
                     </div>
 
                     <div className="nft_coll_pp">
-                      <div className="sk sk-avatar sk--shimmer" />
-                      <div className="sk sk-badge sk--shimmer" />
+                      <div className="skeleton sk-avatar sk--shimmer" />
+                      <div className="skeleton sk-badge sk--shimmer" />
                     </div>
 
                     <div className="nft_coll_info">
-                      <div className="sk sk-title sk--shimmer" />
-                      <div className="sk sk-sub sk--shimmer" />
+                      <div className="skeleton sk-title sk--shimmer" />
+                      <div className="skeleton sk-sub sk--shimmer" />
                     </div>
                   </div>
                 </div>
