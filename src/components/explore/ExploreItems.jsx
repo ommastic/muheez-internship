@@ -1,73 +1,232 @@
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import axios from "axios";
+
+
+// ---------- helpers for Countdown---------
+function formatHMS(ms) {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(total / 3600);
+  const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+  const s = String(total % 60).padStart(2, "0");
+  return `${h}h ${m}m ${s}s`;
+}
+function normalizeExpiryMs(v) {
+  if (v == null) return NaN;
+  if (typeof v === "number") return v < 1e12 ? v * 1000 : v; // seconds → ms
+  const t = Date.parse(v); // ISO string support
+  return Number.isNaN(t) ? NaN : t;
+}
+const Countdown = ({ expiry }) => {
+  const expiryMs = normalizeExpiryMs(expiry);
+  const [remain, setRemain] = useState(
+    Number.isFinite(expiryMs) ? Math.max(0, expiryMs - Date.now()) : 0
+  );
+
+  useEffect(() => {
+    if (!Number.isFinite(expiryMs)) return;
+    const tick = () => setRemain(Math.max(0, expiryMs - Date.now()));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [expiryMs]);
+
+  if (!Number.isFinite(expiryMs) || remain <= 0) return null;
+  return <div className="de_countdown">{formatHMS(remain)}</div>;
+};
 
 const ExploreItems = () => {
+  const [exploreItems, setExploreItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let cancelled = false;
+
+    (async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore",
+          { signal: controller.signal }
+        );
+
+        const list = Array.isArray(data) ? data : (data ? Object.values(data) : []);
+        if (!cancelled)
+          setExploreItems(list);
+
+      } catch (e) {
+        if (axios.isCancel(e)) return
+        console.error("Explore Items fetch failed:", e);
+        if (!cancelled)
+          setExploreItems([]);
+      } finally {
+        if (!cancelled)
+          setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true
+      controller.abort();
+    }
+  }, []);
+
+  const parsePrice = (priceStr) => {
+    if (typeof priceStr === "number") return priceStr;
+    if (typeof priceStr === "string") {
+      const num = parseFloat(priceStr);
+      return Number.isNaN(num) ? 0 : num;
+    }
+    return 0
+  };
+
+  const sortedItems = useMemo(() => {
+    const arr = [...exploreItems];
+    switch (sortBy) {
+      case "price_low_to_high":
+        return arr.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+      case "price_high_to_low":
+        return arr.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+      case "likes_high_to_low":
+        return arr.sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0));
+      default:
+        return arr;
+    }
+  }, [exploreItems, sortBy]);
+
+    // ---- loading skeleton ----
+  if (loading) {
+    return (
+      <>
+        <div>
+          <select
+            id="filter-items"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="">Default</option>
+            <option value="price_low_to_high">Price, Low to High</option>
+            <option value="price_high_to_low">Price, High to Low</option>
+            <option value="likes_high_to_low">Most liked</option>
+          </select>
+        </div>
+
+        <div className="skeleton-box">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+              style={{ display: "block" }}
+            >
+              <div className="nft__item">
+                <div className="author_list_pp">
+                  <div className="ske-avatar ske-shimmer" />
+                  <div className="ske-badge ske-shimmer" />
+                </div>
+                <div className="nft__item_wrap">
+                  <div className="ske-img ske-shimmer" />
+                </div>
+                <div className="nft__item_info">
+                  <div className="ske-title ske-shimmer" />
+                  <div className="ske-row">
+                    <div className="ske-price ske-shimmer" />
+                    <div className="ske-like">
+                      <div className="ske-like-dot ske-shimmer" />
+                      <div className="ske-like-bar ske-shimmer" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  // ---- data state ----
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select
+          id="filter-items"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {new Array(8).fill(0).map((_, index) => (
+
+      {sortedItems.map((item) => (
         <div
-          key={index}
+          key={item.id}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
         >
           <div className="nft__item">
+            {/* avatar */}
             <div className="author_list_pp">
               <Link
                 to="/author"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
+                title={item?.title || ""}
               >
-                <img className="lazy" src={AuthorImage} alt="" />
-                <i className="fa fa-check"></i>
+                <img className="lazy" src={item?.authorImage} alt={item?.author || ""} />
+                <i className="fa fa-check" />
               </Link>
             </div>
-            <div className="de_countdown">5h 30m 32s</div>
 
+            {/* countdown */}
+            <Countdown expiry={item?.expiryDate} />
+
+            {/* image */}
             <div className="nft__item_wrap">
               <div className="nft__item_extra">
                 <div className="nft__item_buttons">
-                  <button>Buy Now</button>
+                  <button type="button">Buy Now</button>
                   <div className="nft__item_share">
                     <h4>Share</h4>
-                    <a href="" target="_blank" rel="noreferrer">
-                      <i className="fa fa-facebook fa-lg"></i>
+                    <a href="#" target="_blank" rel="noreferrer">
+                      <i className="fa fa-facebook fa-lg" />
                     </a>
-                    <a href="" target="_blank" rel="noreferrer">
-                      <i className="fa fa-twitter fa-lg"></i>
+                    <a href="#" target="_blank" rel="noreferrer">
+                      <i className="fa fa-twitter fa-lg" />
                     </a>
-                    <a href="">
-                      <i className="fa fa-envelope fa-lg"></i>
+                    <a href="#">
+                      <i className="fa fa-envelope fa-lg" />
                     </a>
                   </div>
                 </div>
               </div>
               <Link to="/item-details">
-                <img src={nftImage} className="lazy nft__item_preview" alt="" />
+                <img
+                  src={item?.nftImage}
+                  className="lazy nft__item_preview"
+                  alt={item?.title || ""}
+                />
               </Link>
             </div>
+
+            {/* info */}
             <div className="nft__item_info">
               <Link to="/item-details">
-                <h4>Pinky Ocean</h4>
+                <h4>{item?.title}</h4>
               </Link>
-              <div className="nft__item_price">1.74 ETH</div>
+              <div className="nft__item_price">{item?.price} ETH</div>
               <div className="nft__item_like">
-                <i className="fa fa-heart"></i>
-                <span>69</span>
+                <i className="fa fa-heart" />
+                <span>{item?.likes}</span>
               </div>
             </div>
           </div>
         </div>
       ))}
+
       <div className="col-md-12 text-center">
         <Link to="" id="loadmore" className="btn-main lead">
           Load more
