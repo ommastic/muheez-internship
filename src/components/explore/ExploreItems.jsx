@@ -97,7 +97,7 @@ const ExploreItems = () => {
   }, [exploreItems, sortBy]);
 
   useEffect(() => {
-    setVisibleCount((prev) => Math.min(prev, sortedItems.length));
+    setVisibleCount((prev) => Math.min(8, sortedItems.length));
   }, [sortedItems]);
 
   const visibleItems = useMemo(() => sortedItems.slice(0, visibleCount), [sortedItems, visibleCount]);
@@ -239,7 +239,7 @@ const ExploreItems = () => {
       {visibleCount < sortedItems.length && (
         <div className="col-md-12 text-center">
           <Link to="" id="loadmore" className="btn-main lead" onClick={handleLoadMore} type="button">
-            Load more ({Math.min(4, sortedItems.length - visibleCount)} items)
+            Load more 
           </Link>
         </div>
       )}
