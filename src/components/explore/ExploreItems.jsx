@@ -39,6 +39,7 @@ const ExploreItems = () => {
   const [exploreItems, setExploreItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
+  const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -95,7 +96,16 @@ const ExploreItems = () => {
     }
   }, [exploreItems, sortBy]);
 
-    // ---- loading skeleton ----
+  useEffect(() => {
+    setVisibleCount((prev) => Math.min(prev, sortedItems.length));
+  }, [sortedItems]);
+
+  const visibleItems = useMemo(() => sortedItems.slice(0, visibleCount), [sortedItems, visibleCount]);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 4, sortedItems.length));
+  }
+  // ---- loading skeleton ----
   if (loading) {
     return (
       <>
@@ -161,7 +171,7 @@ const ExploreItems = () => {
         </select>
       </div>
 
-      {sortedItems.map((item) => (
+      {visibleItems.map((item) => (
         <div
           key={item.id}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -226,12 +236,13 @@ const ExploreItems = () => {
           </div>
         </div>
       ))}
-
-      <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" className="btn-main lead">
-          Load more
-        </Link>
-      </div>
+      {visibleCount < sortedItems.length && (
+        <div className="col-md-12 text-center">
+          <Link to="" id="loadmore" className="btn-main lead" onClick={handleLoadMore} type="button">
+            Load more ({Math.min(4, sortedItems.length - visibleCount)} items)
+          </Link>
+        </div>
+      )}
     </>
   );
 };
