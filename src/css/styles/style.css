@@ -13669,6 +13669,7 @@ a.read_more i {
   justify-content: center;
   position: relative;
   height: 350px;
+  overflow: hidden;
 }
 
 .nft__item_wrap a {
@@ -15464,8 +15465,8 @@ img {
 }
 
 /* -------------------------------------------------- */
-    /*design for 768px*/
-    /* ================================================== */
+/*design for 768px*/
+/* ================================================== */
 
 @media (min-width: 768px) and (max-width: 979px) {
   .slider_text {
@@ -16653,118 +16654,212 @@ img {
 /* =========================
    Shared Skeleton Styles (HotCollections / NewItems / TopSellers)
    ========================= */
-:root{
+:root {
   --ske-bg: #dddbdd;
-  --ske-sheen: rgba(255,255,255,.55);
+  --ske-sheen: rgba(255, 255, 255, 0.55);
   --ske-radius-card: 12px;
   --ske-radius-pill: 999px;
   --ske-gap: 16px;
   --ske-avatar: 44px;
   --ske-like-dot: 10px;
 }
+.main_wrapper{
+  width: 100%;
+  height: 100%;
+}
+
+/* base card */
+.ske-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* variants you can add as extra classes */
+.ske--sq .ske-img {
+  aspect-ratio: 1 / 1;
+}
+.ske--4-3 .ske-img {
+  aspect-ratio: 4 / 3;
+}
+.ske--16-9 .ske-img {
+  aspect-ratio: 16 / 9;
+}
+
+/* avatar sizes */
+.ske--sm .ske-avatar {
+  width: 36px;
+  height: 36px;
+}
+.ske--md .ske-avatar {
+  width: 44px;
+  height: 44px;
+}
+.ske--lg .ske-avatar {
+  width: 56px;
+  height: 56px;
+}
 
 /* Grid wrapper used during loading */
-.skeleton-box{
+.skeleton-box {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--ske-gap);
 }
 
 /* Keep spacing identical to slick slides so swap is seamless */
-.card{ padding: 0 8px; }
-.slick-list{ margin: 0 -8px; }
+.card {
+  padding: 0 8px;
+}
+.slick-list {
+  margin: 0 -8px;
+}
 
-@media (max-width: 1200px){ .skeleton-box{ grid-template-columns: repeat(3,1fr);} }
-@media (max-width: 992px){  .skeleton-box{ grid-template-columns: repeat(2,1fr);} }
-@media (max-width: 576px){  .skeleton-box{ grid-template-columns: 1fr;} }
+@media (max-width: 1200px) {
+  .skeleton-box {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  .skeleton-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .skeleton-box {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* Base block + shimmer */
 .ske,
-.ske-shimmer{
+.ske-shimmer {
   position: relative;
   display: block;
   overflow: hidden;
   background: var(--ske-bg);
   border-radius: 8px;
 }
-.ske-shimmer::after{
+.ske-shimmer::after {
   content: "";
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, var(--ske-sheen), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ske-sheen),
+    transparent
+  );
   animation: ske-shimmer 1.2s infinite;
 }
-@keyframes ske-shimmer { 100% { transform: translateX(100%); } }
+@keyframes ske-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
 
 /* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .ske-shimmer::after{ animation: none; display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ske-shimmer::after {
+    animation: none;
+    display: none;
+  }
 }
 
 /* ===== Card structure parity (matches nft card layout) ===== */
-.nft__item{ position: relative; }
-.nft__item_wrap{ margin-top: 8px; } /* space below avatar cluster */
+.nft__item {
+  position: relative;
+}
+.nft__item_wrap {
+  margin-top: 8px;
+} /* space below avatar cluster */
 
 /* Avatar & badge cluster (top-left) */
-.author_list_pp{
-  position: absolute; 
-  top: 12px; left: 12px; z-index: 3;
-  display: flex; align-items: center; gap: 8px;
+.author_list_pp {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.ske-avatar{
+.ske-avatar {
   width: var(--ske-avatar);
   height: var(--ske-avatar);
   border-radius: 50%;
-  border: 2px solid #fff;               /* matches real avatar ring */
-  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  border: 2px solid #fff; /* matches real avatar ring */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   background: var(--ske-bg);
 }
-.ske-badge{
-  width: 60px; height: 16px;
+.ske-badge {
+  width: 60px;
+  height: 16px;
   border-radius: var(--ske-radius-pill);
 }
 
 /* Main image placeholder */
-.ske-img{
-  height: 220px;
-  border-radius: var(--ske-radius-card);
+.ske-img {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  border-radius: 12px;
+  background: #e9ecef;
+  position: relative;
+  overflow: hidden;
+  display: block;
 }
 
 /* Info rows */
-.nft__item_info{ margin-top: 10px; }
-.ske-title{
-  height: 16px; border-radius: 6px; width: 70%;
+.nft__item_info {
+  margin-top: 10px;
+}
+.ske-title {
+  height: 16px;
+  border-radius: 6px;
+  width: 70%;
   margin: 8px 0 6px;
 }
-.ske-row{
-  display: flex; align-items: center; justify-content: space-between;
+.ske-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
 /* Price bar (left of row) */
-.ske-price{
-  height: 14px; border-radius: 6px; width: 40%;
+.ske-price {
+  height: 14px;
+  border-radius: 6px;
+  width: 40%;
 }
 
 /* Like cluster (right of row) */
-.ske-like{
-  display: flex; align-items: center; gap: 8px;
+.ske-like {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.ske-like-dot{
-  width: var(--ske-like-dot); height: var(--ske-like-dot);
+.ske-like-dot {
+  width: var(--ske-like-dot);
+  height: var(--ske-like-dot);
   border-radius: 50%;
 }
-.ske-like-bar{
-  width: 28px; height: 10px; border-radius: 6px;
+.ske-like-bar {
+  width: 28px;
+  height: 10px;
+  border-radius: 6px;
 }
-
-/* ===== TopSellers compatibility (when list layout is used) ===== */
-/* If your TopSellers uses <ol class="author_list"> with avatars/names,
-   these keep the skeletons aligned visually with the real list. */
-.author_list .ske-avatar{ margin-right: 10px; }
-.author_list .ske-title{ width: 120px; }
-.author_list .ske-price{ width: 64px; }
+.author_list .ske-avatar {
+  margin-right: 10px;
+}
+.author_list .ske-title {
+  width: 120px;
+}
+.author_list .ske-price {
+  width: 64px;
+}
 
 .nft-image {
   height: 100%;
@@ -16795,18 +16890,31 @@ img {
 }
 
 /* move the nav to its proper place */
-.relative .owl-nav .owl-prev { left: -24px; }
-.relative .owl-nav .owl-next { right: -24px; }
+.relative .owl-nav .owl-prev {
+  left: -24px;
+}
+.relative .owl-nav .owl-next {
+  right: -24px;
+}
 
 /* base shimmer */
 @keyframes shimmer {
-  0%   { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
 }
 
 .skeleton-box .shimmer {
   background: #e5e5e5;
-  background-image: linear-gradient(90deg, #e5e5e5 0, #f2f2f2 40px, #e5e5e5 80px);
+  background-image: linear-gradient(
+    90deg,
+    #e5e5e5 0,
+    #f2f2f2 40px,
+    #e5e5e5 80px
+  );
   background-size: 200px 100%;
   animation: shimmer 1.4s infinite linear;
   border-radius: 8px;
@@ -16824,7 +16932,7 @@ img {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  margin: -22px auto 8px; 
+  margin: -22px auto 8px;
 }
 
 .skeleton-box .badge {
@@ -16849,75 +16957,93 @@ img {
 }
 
 /* spacing */
-.slick-slide { padding: 0 8px; }
-.slick-list  { margin: 0 -8px; }
+.slick-slide {
+  padding: 0 8px;
+}
+.slick-list {
+  margin: 0 -8px;
+}
 
 /* card overlays */
-.nft__item { position: relative; }
+.nft__item {
+  position: relative;
+}
 .author_list_pp {
-  position: absolute; top: 12px; left: 12px; z-index: 3;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
 }
 .author_list_pp img {
-  width: 44px; 
-  height: 44px; 
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 2px solid #fff; 
-  object-fit: cover; 
-  box-shadow: 0 4px 10px rgba(0,0,0,.12);
+  border: 2px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 .author_list_pp i {
-  position: absolute; 
-  right: -2px; 
-  bottom: -2px; 
-  width: 16px; 
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 16px;
   height: 16px;
-  line-height: 16px; 
-  text-align: center; 
-  font-size: 10px; 
+  line-height: 16px;
+  text-align: center;
+  font-size: 10px;
   border-radius: 50%;
-  background: #6c5ce7; 
-  color: #fff; 
+  background: #6c5ce7;
+  color: #fff;
   border: 2px solid #fff;
 }
 .de_countdown {
-  position: absolute; 
-  top: 12px; 
-  right: 12px; 
+  position: absolute;
+  top: 12px;
+  right: 12px;
   z-index: 3;
-  padding: 6px 10px; 
-  border: 2px solid #6c5ce7; 
+  padding: 6px 10px;
+  border: 2px solid #6c5ce7;
   border-radius: 999px;
-  background: #fff; 
-  font-size: 12px; 
-  font-weight: 600; 
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 /* Ensure slick is a positioning context */
-.slick-slider { 
-  position: relative; 
+.slick-slider {
+  position: relative;
 }
 
 /* position arrows */
-.slick-prev { left: 28px; }
-.slick-next { right: 28px;}
-.slick-prev, .slick-next {
-  width: 36px; height: 36px;
+.slick-prev {
+  left: 28px;
+}
+.slick-next {
+  right: 28px;
+}
+.slick-prev,
+.slick-next {
+  width: 36px;
+  height: 36px;
   transform: translateY(-50%);
   top: 50%;
   z-index: 5;
 }
 
 /* change the arrow glyphs' look */
-.slick-prev:before, .slick-next:before {
-  font-size: 28px;       /* bigger chevrons */
+.slick-prev:before,
+.slick-next:before {
+  font-size: 28px; /* bigger chevrons */
   color: #4b3fd6 !important;
-  opacity: 1;            /* ensure visible */
+  opacity: 1; /* ensure visible */
 }
 
 /* Make the slider a positioning context */
 #section-items .slick-slider,
-#section-collections .slick-slider { position: relative; }
+#section-collections .slick-slider {
+  position: relative;
+}
 
 /* Base arrow look */
 #section-items .slick-prev,
@@ -16931,19 +17057,41 @@ img {
   height: 38px;
   border-radius: 999px;
   background: #fff;
-  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   z-index: 5;
 }
 
 /* Position: one on the far left, one on the far right */
-#section-items .slick-prev{ left: 2px; }
-#section-collections .slick-prev { left: -10px; }
-
-#section-items .slick-next{ right: 2px; }
-#section-collections .slick-next { right: -10px; }
-
-#section-popular .lazy pp-author{
-  
+#section-items .slick-prev {
+  left: 2px;
+}
+#section-collections .slick-prev {
+  left: -10px;
 }
 
+#section-items .slick-next {
+  right: 2px;
+}
+#section-collections .slick-next {
+  right: -10px;
+}
 
+/* shimmer */
+.ske-img.ske-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: ske-shimmer 1.6s infinite;
+}
+@keyframes ske-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
