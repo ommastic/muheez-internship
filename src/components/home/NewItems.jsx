@@ -14,6 +14,7 @@ function formatHMS(ms) {
   const s = String(total % 60).padStart(2, "0");
   return `${h}h ${m}m ${s}s`;
 }
+
 function normalizeExpiryMs(v) {
   if (v == null) return NaN;
   if (typeof v === "number") return v < 1e12 ? v * 1000 : v; // seconds → ms

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import axios from "axios";
 
 
@@ -11,12 +11,16 @@ function formatHMS(ms) {
   const s = String(total % 60).padStart(2, "0");
   return `${h}h ${m}m ${s}s`;
 }
+
+//ensure sale ends time is in millisecs
 function normalizeExpiryMs(v) {
   if (v == null) return NaN;
   if (typeof v === "number") return v < 1e12 ? v * 1000 : v; // seconds → ms
   const t = Date.parse(v); // ISO string support
   return Number.isNaN(t) ? NaN : t;
 }
+
+
 const Countdown = ({ expiry }) => {
   const expiryMs = normalizeExpiryMs(expiry);
   const [remain, setRemain] = useState(
@@ -45,23 +49,35 @@ const ExploreItems = () => {
     const controller = new AbortController();
     let cancelled = false;
 
+    const filterParam = 
+      sortBy ==="price_high_to_low" ? "price_high_to_low" :
+      sortBy ==="price_low_to_high" ? "price_low_to_high" :
+      sortBy ==="likes_high_to_low" ? "likes_high_to_low" : "";
+
+
     (async () => {
       try {
         setLoading(true);
         const { data } = await axios.get(
           "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore",
-          { signal: controller.signal }
+          { signal: controller.signal,
+            params: filterParam ? { filter: filterParam } : undefined,
+           }
         );
 
         const list = Array.isArray(data) ? data : (data ? Object.values(data) : []);
-        if (!cancelled)
+        if (!cancelled) {
           setExploreItems(list);
+          setVisibleCount(Math.min(8, list.length))
+        }
 
       } catch (e) {
         if (axios.isCancel(e)) return
         console.error("Explore Items fetch failed:", e);
-        if (!cancelled)
+        if (!cancelled){
           setExploreItems([]);
+          setVisibleCount(0)
+        }
       } finally {
         if (!cancelled)
           setLoading(false);
@@ -71,39 +87,13 @@ const ExploreItems = () => {
       cancelled = true
       controller.abort();
     }
-  }, []);
+  }, [sortBy]);
 
-  const parsePrice = (priceStr) => {
-    if (typeof priceStr === "number") return priceStr;
-    if (typeof priceStr === "string") {
-      const num = parseFloat(priceStr);
-      return Number.isNaN(num) ? 0 : num;
-    }
-    return 0
-  };
-
-  const sortedItems = useMemo(() => {
-    const arr = [...exploreItems];
-    switch (sortBy) {
-      case "price_low_to_high":
-        return arr.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
-      case "price_high_to_low":
-        return arr.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
-      case "likes_high_to_low":
-        return arr.sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0));
-      default:
-        return arr;
-    }
-  }, [exploreItems, sortBy]);
-
-  useEffect(() => {
-    setVisibleCount((prev) => Math.min(8, sortedItems.length));
-  }, [sortedItems]);
-
-  const visibleItems = useMemo(() => sortedItems.slice(0, visibleCount), [sortedItems, visibleCount]);
+  const visibleItems = useMemo(() => 
+    exploreItems.slice(0, visibleCount), [exploreItems, visibleCount]);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 4, sortedItems.length));
+    setVisibleCount((prev) => Math.min(prev + 4, exploreItems.length));
   }
   // ---- loading skeleton ----
   if (loading) {
@@ -122,21 +112,24 @@ const ExploreItems = () => {
           </select>
         </div>
 
-        <div className="skeleton-box">
+        <div className="row skeleton-box">
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
-              className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
-              style={{ display: "block" }}
-            >
+              className="main_wrapper col-lg-3 col-md-6 col-sm-6 col-xs-12"
+            > 
+                {/*skeleton: top left */}
               <div className="nft__item">
                 <div className="author_list_pp">
                   <div className="ske-avatar ske-shimmer" />
                   <div className="ske-badge ske-shimmer" />
                 </div>
+                {/* image */}
                 <div className="nft__item_wrap">
                   <div className="ske-img ske-shimmer" />
                 </div>
+
+                  {/* info */}
                 <div className="nft__item_info">
                   <div className="ske-title ske-shimmer" />
                   <div className="ske-row">
@@ -236,7 +229,7 @@ const ExploreItems = () => {
           </div>
         </div>
       ))}
-      {visibleCount < sortedItems.length && (
+      {visibleCount < exploreItems.length && (
         <div className="col-md-12 text-center">
           <Link to="" id="loadmore" className="btn-main lead" onClick={handleLoadMore} type="button">
             Load more 
