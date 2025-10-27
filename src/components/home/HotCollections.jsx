@@ -95,7 +95,7 @@ export default function HotCollections() {
             // Real slider
             <Slider {...settings}>
               {collections.map((item) => (
-                <div className="nft_coll" key={item.id}>
+                <div className="nft_coll" key={item.authorId}>
                   <div className="nft_wrap">
                     <Link to="/item-details">
                       <img
