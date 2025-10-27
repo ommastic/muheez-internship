@@ -101,13 +101,17 @@ export default function NewItems() {
                       <div className="ske-avatar ske-shimmer" />
                       <div className="ske-badge ske-shimmer" />
                     </div>
+
                     <div className="nft__item_wrap">
                       <div className="ske-img ske-shimmer" />
                     </div>
+
                     <div className="nft__item_info">
                       <div className="ske-title ske-shimmer" />
+
                       <div className="ske-row">
                         <div className="ske-price ske-shimmer" />
+                        
                         <div className="ske-like">
                           <div className="ske-like-dot ske-shimmer" />
                           <div className="ske-like-bar ske-shimmer" />
