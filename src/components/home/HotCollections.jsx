@@ -69,23 +69,23 @@ export default function HotCollections() {
 
         <div className="relative">
           {loading ? (
-            // Skeletons
-            <div className="skeleton-row">
+            // Skeleton
+            <div className="skeleton-box">
               {[...Array(4)].map((_, i) => (
-                <div className="sk-card" key={i}>
+                <div className="ske-card" key={i}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      <div className="sk sk-img sk--shimmer" />
+                      <div className="ske ske-img ske-shimmer" />
                     </div>
 
                     <div className="nft_coll_pp">
-                      <div className="skeleton sk-avatar sk--shimmer" />
-                      <div className="skeleton sk-badge sk--shimmer" />
+                      <div className="ske ske-avatar ske-shimmer" />
+                      <div className="ske ske-badge ske-shimmer" />
                     </div>
 
                     <div className="nft_coll_info">
-                      <div className="skeleton sk-title sk--shimmer" />
-                      <div className="skeleton sk-sub sk--shimmer" />
+                      <div className="ske ske-title ske-shimmer" />
+                      <div className="ske ske-sub ske-shimmer" />
                     </div>
                   </div>
                 </div>
