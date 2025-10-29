@@ -21,15 +21,9 @@ const Author = () => {
       try {
         setLoading(true)
         const { data } = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors",
-          {
-            signal: controller.signal, params: { id: authorId }
-          }
-        );
-        const list = Array.isArray(data) ? data : Object.values(data || {})
-        const value = Array.isArray(list) ? list[0] : list;
-        setAuthor(value)
-
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`,
+        );     
+        setAuthor(data)
       } catch (e) {
         if (!axios.isCancel(e))
           console.error("Author fetch failed", e)

@@ -64,13 +64,13 @@ const TopSellers = () => {
                       <img
                         className="lazy pp-author"
                         src={item.authorImage}
-                        alt=""
+                        alt={item.authorName}
                       />
                       <i className="fa fa-check"></i>
                     </Link>
                   </div>
                   <div className="author_list_info">
-                    <Link to="/author">{item.authorId}</Link>
+                    <Link to="/author">{item.authorName}</Link>
                     <span>{item.price} ETH</span>
                   </div>
                 </li>

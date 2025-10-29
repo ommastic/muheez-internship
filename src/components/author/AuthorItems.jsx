@@ -17,13 +17,9 @@ const AuthorItems = () => {
       try {
         setLoading(true)
         const { data } = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/authors",
-          {
-            signal: controller.signal, params: { id: authorId }
-          }
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author="${authorId}`,
         );
-        const list = Array.isArray(data) ? data : Object.values(data || {})
-        setItems(list)
+        setItems(data)
 
       } catch (e) {
         if (!axios.isCancel(e))
@@ -53,12 +49,12 @@ const AuthorItems = () => {
     <div className="de_tab_content">
       <div className="tab-1">
         <div className="row">
-          {items.map(item => (
+          {items.nftCollection.map(item => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.id}>
               <div className="nft__item">
                 <div className="author_list_pp">
-                  <Link to={`/author/${item.authorId}`}>
-                    <img className="lazy" src={item.authorImage} alt="" />
+                  <Link to="/author">
+                    <img className="lazy" src={items.authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
