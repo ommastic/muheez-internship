@@ -97,7 +97,7 @@ export default function HotCollections() {
               {collections.map((item) => (
                 <div className="nft_coll" key={item.authorId}>
                   <div className="nft_wrap">
-                    <Link to="/item-details">
+                    <Link to={`/item-details/${item.nftId}`}>
                       <img
                         src={item.nftImage}
                         className="lazy img-fluid"
