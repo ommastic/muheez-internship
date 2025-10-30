@@ -118,7 +118,7 @@ const Author = () => {
           aria-label="section"
           className="text-light"
           data-bgimage="url(images/author_banner.jpg) top"
-          style={{ backgroundImage: `url(${AuthorBanner}) top` }}
+          style={{ background: `url(${AuthorBanner}) top` }}
         />
 
         {
@@ -150,7 +150,7 @@ const Author = () => {
                         </div>
                         <div className="profile_follow de-flex">
                           <div className="de-flex-col">
-                            <div className="profile_follower">({followerCount}) followers</div>
+                            <div className="profile_follower">{followerCount} followers</div>
                             <Link to="#" className="btn-main" onClick={() => isFollowing ? unfollow(author) : follow(author)}>
                               {isFollowing ? "unfollow" : "follow"}
                             </Link>
@@ -161,7 +161,7 @@ const Author = () => {
 
                     <div className="col-md-12">
                       <div className="de_tab tab_simple">
-                        <AuthorItems />
+                        <AuthorItems items={author} loading={loading}/>
                       </div>
                     </div>
                   </div>
