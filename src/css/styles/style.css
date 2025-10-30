@@ -16811,6 +16811,14 @@ img {
   display: block;
 }
 
+.ske-btn {
+  display: inline-block;
+  width: 110px; height: 36px;
+  border-radius: 999px;
+  background: #e8e8e8;
+  margin-top: 8px;
+}
+
 /* Info rows */
 .nft__item_info {
   margin-top: 10px;
