@@ -36,15 +36,41 @@ const AuthorItems = () => {
 
   if (loading) {
     return (
-      <div className="row">
-        {[...Array(8)].map((_, i) => (
-          <div className="col-lg-3 col-md-6 col-xs-12" key={i}>
-            <div className="nft__item skeleton" />
-          </div>
-        ))}
-      </div>
-    )
+        <div className="row skeleton-box">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="main_wrapper col-lg-3 col-md-6 col-sm-6 col-xs-12"
+            > 
+                {/*skeleton: top left */}
+              <div className="nft__item">
+                <div className="author_list_pp">
+                  <div className="ske-avatar ske-shimmer" />
+                  <div className="ske-badge ske-shimmer" />
+                </div>
+                {/* image */}
+                <div className="nft__item_wrap">
+                  <div className="ske-img ske-shimmer" />
+                </div>
+
+                  {/* info */}
+                <div className="nft__item_info">
+                  <div className="ske-title ske-shimmer" />
+                  <div className="ske-row">
+                    <div className="ske-price ske-shimmer" />
+                    <div className="ske-like">
+                      <div className="ske-like-dot ske-shimmer" />
+                      <div className="ske-like-bar ske-shimmer" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+    );
   }
+
     const collection = Array.isArray(items.nftCollection) ? items.nftCollection : []
   return (
     <div className="de_tab_content">
