@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const ItemDetails = () => {
-  const { authorId, nftId } = useParams()
+  const { nftId } = useParams()
   const [details, setDetails] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -25,7 +25,7 @@ const ItemDetails = () => {
         );
         setDetails(data)
       } catch (e) {
-        if (axios.isCancel(e)) 
+        if (axios.isCancel(e))
           return
         console.error("Item details fetch failed:", e);
         setDetails(null);
@@ -37,14 +37,17 @@ const ItemDetails = () => {
   }, [nftId]);
 
 
-  return (   
+  return (
+  loading ? (
+  <div className="container py-5 text-center">Loading...</div>
+    ) : details ? (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <section aria-label="section" className="mt90 sm-mt-0">
           <div className="container">
             <div className="row">
-            
+
               <div className="col-md-6 text-center">
                 <img
                   src={details.nftImage}
@@ -54,7 +57,7 @@ const ItemDetails = () => {
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>Rainbow Style #194</h2>
+                  <h2>{details.title}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
@@ -75,7 +78,7 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to="/author">
-                            <img className="lazy" src={details.authorImage} alt="" />
+                            <img className="lazy" src={details.ownerImage} alt={details.ownerName}/>
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
@@ -92,12 +95,12 @@ const ItemDetails = () => {
                       <div className="item_author">
                         <div className="author_list_pp">
                           <Link to={`/author/${details.ownerId}`}>
-                            <img className="lazy" src={details.authorImage} alt="" />
+                            <img className="lazy" src={details.creatorImage} alt={details.creatorName}/>
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${details.ownerId}`}>{details.ownerName}</Link>
+                          <Link to={`/author/${details.ownerId}`}>{details.creatorName}</Link>
                         </div>
                       </div>
                     </div>
@@ -115,7 +118,10 @@ const ItemDetails = () => {
         </section>
       </div>
     </div>
-  );
-};
+  ): null
+  )   
+ };
+
+
 
 export default ItemDetails;
