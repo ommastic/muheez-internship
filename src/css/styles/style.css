@@ -13290,7 +13290,6 @@ a.read_more i {
 
 .author_list_pp {
   position: relative;
-  top: 12px;
   z-index: 3;
   display: flex;
   align-items: center;
@@ -13345,7 +13344,6 @@ a.read_more i {
 
 .author_list_info {
   font-weight: bold;
-  padding-left: 80px;
 }
 
 .rtl .author_list_info {
@@ -13612,13 +13610,17 @@ a.read_more i {
   margin-bottom: 15px;
 }
 
+.item_author{
+  display: flex;
+}
+
 .item_author .author_list_pp {
   margin-left: 0;
 }
 
 .item_author .author_list_info {
   padding-top: 10px;
-  padding-left: 70px;
+  padding-left: 20px;
 }
 
 .nft__item {
