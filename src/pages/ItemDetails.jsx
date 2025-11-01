@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import EthImage from "../images/ethereum.svg";
 import axios from "axios";
 
 const ItemDetails = () => {
@@ -107,7 +108,7 @@ const ItemDetails = () => {
                     <div className="spacer-40"></div>
                     <h6>Price</h6>
                     <div className="nft-item-price">
-                      <img src={details.nftImage} alt="" />
+                      <img src={EthImage} alt="" />
                       <span>{details.price}</span>
                     </div>
                   </div>
