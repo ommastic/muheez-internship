@@ -13289,9 +13289,8 @@ a.read_more i {
 }
 
 .author_list_pp {
-  position: absolute;
+  position: relative;
   top: 12px;
-  left: 12px;
   z-index: 3;
   display: flex;
   align-items: center;
@@ -17050,6 +17049,20 @@ img {
 #section-collections .slick-next {
   right: -10px;
 }
+
+/* special css design for the item details Author abd Creator */
+/* .author__list_pp {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 50px;
+  height: auto;
+} */
+
 
 /* shimmer */
 .ske-img.ske-shimmer::after {
