@@ -1,5 +1,5 @@
 import Home from "./pages/Home";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Explore from "./pages/Explore";
 import Author from "./pages/Author";
 import ItemDetails from "./pages/ItemDetails";
@@ -8,11 +8,7 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <Router future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
+    <>
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -21,7 +17,7 @@ function App() {
         <Route path="/item-details/:nftId" element={<ItemDetails />} />
       </Routes>
       <Footer />
-    </Router>
+    </>
   );
 }
 
