@@ -1,7 +1,8 @@
 {
-  "name": "nft-marketplace",
+  "name": "muheez-internship",
   "version": "0.1.1",
   "private": true,
+  "homepage": "https://ommastic.github.io/muheez-internship/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
@@ -20,17 +21,13 @@
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
   },
-
-  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "homepage" : "http://ommastic.github.io/muheez-internship"
-
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
